@@ -10,6 +10,8 @@ vim.opt.termguicolors = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+vim.o.signcolumn = "yes"
+
 vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.ignorecase = true
@@ -22,6 +24,6 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 10
 
 vim.opt.updatetime = 50
