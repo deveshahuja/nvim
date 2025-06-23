@@ -7,7 +7,13 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
-    require("nvim-tree").setup {}
+    require("nvim-tree").setup {
+        -- renderer = {
+        --     indent_markers = {
+        --         enable = true,
+        --     }
+        -- }
+    }
     
     vim.keymap.set("n", "<leader>e", "<cmd>:NvimTreeFocus<cr>")
     vim.keymap.set("n", "<leader>te", "<cmd>:NvimTreeToggle<cr>")
