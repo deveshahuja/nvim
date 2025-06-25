@@ -27,33 +27,53 @@ return {
         end
     })
 
-    -- local function add_to_gitignore(node)
-    --   local path = node.relative_path or node.name
-    --   local gitignore_path = vim.fn.getcwd() .. "/.gitignore"
-    --
-    --   local lines = {}
-    --   if vim.fn.filereadable(gitignore_path) == 1 then
-    --     lines = vim.fn.readfile(gitignore_path)
-    --   end
-    --
-    --   for _, line in ipairs(lines) do
-    --     if line == path then
-    --       vim.notify(path .. " is already in .gitignore", vim.log.levels.INFO)
-    --       return
-    --     end
-    --   end
-    --
-    --   table.insert(lines, path)
-    --   vim.fn.writefile(lines, gitignore_path)
-    --   vim.notify("Added to .gitignore: " .. path)
-    -- end
-    --
-    -- vim.keymap.set("n", "<leader>i", function()
-    --   local node = require("nvim-tree.api").fs.copy.node()
-    --     if node then
-    --         add_to_gitignore(node)
-    --     end
-    -- end, { desc = "Add to .gitignore"} )   
+    local function add_to_gitignore(node)
+        local full_path = node.absolute_path or node.name
+        local rel_path = vim.fn.fnamemodify(full_path, ":.")
+        -- for windows
+        path = rel_path:gsub("\\", "/") 
+        
+        local gitignore_path = vim.fn.getcwd() .. "/.gitignore"
+
+        local lines = {}
+        if vim.fn.filereadable(gitignore_path) == 1 then
+            lines = vim.fn.readfile(gitignore_path)
+        end
+
+        for _, line in ipairs(lines) do
+            if line == path then
+                vim.notify(path .. " is already in .gitignore", vim.log.levels.INFO)
+                return
+            end
+        end
+
+        table.insert(lines, path)
+        vim.fn.writefile(lines, gitignore_path)
+
+        --  Reload .gitignore buffer if it's open
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_loaded(buf) then
+                local name = vim.api.nvim_buf_get_name(buf)
+                if name:match("%.gitignore$") then
+                    vim.api.nvim_buf_call(buf, function()
+                    vim.cmd("edit!")
+                    end)
+                    break
+                end
+            end
+        end
+
+            vim.notify("Added to .gitignore: " .. path)
+    end
+
+    vim.keymap.set("n", "ig", function()
+      local node = require("nvim-tree.api").tree.get_node_under_cursor()
+      if node then
+        add_to_gitignore(node)
+      else
+        vim.notify("No node selected", vim.log.levels.WARN)
+      end
+    end, { desc = "Add to .gitignore" })
   
   end,
 }
