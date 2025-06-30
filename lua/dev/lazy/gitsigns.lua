@@ -70,6 +70,6 @@ return {
             end
         end)
         
-        vim.keymap.set('n', '<leader>gb', gitsigns.toggle_current_line_blame)
+        vim.keymap.set('n', '<leader>bl', gitsigns.toggle_current_line_blame)
     end
 }
