@@ -2,6 +2,8 @@ require("dev.set")
 require("dev.remap")
 require("dev.lazy_init")
 
+-- vim.lsp.enable('pyright')
+
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
