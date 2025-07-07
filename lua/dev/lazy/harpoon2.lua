@@ -15,7 +15,7 @@ return {
         vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
         vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
 
-        -- just use dd to remove from quick menu
+        -- just use dd<Enter> to remove from quick menu
         -- vim.keymap.set("n", "<leader>1", function() harpoon:list():remove_at(1) end)
         -- vim.keymap.set("n", "<leader>2", function() harpoon:list():remove_at(2) end)
         -- vim.keymap.set("n", "<leader>3", function() harpoon:list():remove_at(3) end)
